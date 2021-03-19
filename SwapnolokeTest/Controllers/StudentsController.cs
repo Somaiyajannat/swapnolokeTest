@@ -21,7 +21,7 @@ namespace SwapnolokeTest.Controllers
             List<Student> studentList = new List<Student>();
             String query = "SELECT * FROM Students";
             databaseManager.command.CommandText = query;
-            databaseManager.connection.Open();
+            databaseManager.OpenConnection();
 
             SqlDataReader reader = databaseManager.command.ExecuteReader();
 
@@ -39,7 +39,7 @@ namespace SwapnolokeTest.Controllers
                 };
                 studentList.Add(student);
             }
-            databaseManager.connection.Close();
+            databaseManager.CloseConnection();
             return studentList;
         }
 
@@ -79,11 +79,31 @@ namespace SwapnolokeTest.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,studentId,studentName,studentEmail,studentContactNo,enrolledDate,studentAddress,studentDeptName")] Student student)
         {
-            if (ModelState.IsValid)
+/*            if (ModelState.IsValid)
             {
                 db.Movies.Add(student);
                 db.SaveChanges();
                 return RedirectToAction("Index");
+            }*/
+            if (student != null)
+            {
+                String query = "INSERT INTO Students VALUES("
+                    + "'" + student.studentId + "',"
+                    + "'" + student.studentName + "',"
+                    + "'" + student.studentEmail + "',"
+                    + "'" + student.studentContactNo + "',"
+                    + "'" + student.enrolledDate.ToString() + "',"
+                    + "'" + student.studentAddress + "',"
+                    + "'" + student.studentDeptName + "')";
+
+                databaseManager.command.CommandText = query;
+                databaseManager.OpenConnection();
+                int rowAffected = databaseManager.command.ExecuteNonQuery();
+                databaseManager.CloseConnection();
+                if (rowAffected != 0)
+                {
+                    return RedirectToAction("Index");
+                }
             }
 
             return View(student);

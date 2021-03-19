@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
@@ -25,6 +26,18 @@ namespace SwapnolokeTest.Models
         {
             if (instance == null) instance = new DatabaseManager();
             return instance;
+        }
+
+        public void OpenConnection()
+        {
+            if (connection.State != ConnectionState.Closed) connection.Close();
+            connection.Open();
+        }
+
+        public void CloseConnection()
+        {
+            if (connection.State == ConnectionState.Closed) return;
+            connection.Close();
         }
     }
 }
