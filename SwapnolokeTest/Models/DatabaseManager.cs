@@ -15,7 +15,7 @@ namespace SwapnolokeTest.Models
         public SqlConnection connection = new SqlConnection();
         public SqlCommand command = new SqlCommand();
 
-        DatabaseManager()
+        private DatabaseManager()
         {
             connection.ConnectionString = connectionString;
             command.Connection = connection;
