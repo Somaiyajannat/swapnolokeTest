@@ -29,6 +29,7 @@ namespace SwapnolokeTest.Controllers
             {
                 Student student = new Student()
                 {
+                    ID = (int)reader["ID"],
                     studentId = reader["studentId"].ToString(),
                     studentName = reader["studentName"].ToString(),
                     studentEmail = reader["studentEmail"].ToString(),
@@ -147,7 +148,28 @@ namespace SwapnolokeTest.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Student student = db.Movies.Find(id);
+            //Student student = db.Movies.Find(id);
+            String query = "SELECT * FROM Students WHERE ID = " + id;
+            databaseManager.command.CommandText = query;
+            databaseManager.OpenConnection();
+            SqlDataReader reader = databaseManager.command.ExecuteReader();
+
+            Student student = null;
+            while (reader.Read())
+            {
+                student = new Student()
+                {
+                    ID = (int)reader["ID"],
+                    studentId = reader["studentId"].ToString(),
+                    studentName = reader["studentName"].ToString(),
+                    studentEmail = reader["studentEmail"].ToString(),
+                    studentContactNo = reader["studentContactNo"].ToString(),
+                    enrolledDate = (DateTime)reader["enrolledDate"],
+                    studentAddress = reader["studentAddress"].ToString(),
+                    studentDeptName = reader["studentDeptName"].ToString()
+                };
+            }
+            databaseManager.CloseConnection();
             if (student == null)
             {
                 return HttpNotFound();
@@ -160,9 +182,16 @@ namespace SwapnolokeTest.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Student student = db.Movies.Find(id);
-            db.Movies.Remove(student);
-            db.SaveChanges();
+            /*            Student student = db.Movies.Find(id);
+                        db.Movies.Remove(student);
+                        db.SaveChanges();*/
+
+            String query = "DELETE FROM Students WHERE ID = " + id;
+            databaseManager.command.CommandText = query;
+            databaseManager.OpenConnection();
+            databaseManager.command.ExecuteNonQuery();
+            databaseManager.CloseConnection();
+
             return RedirectToAction("Index");
         }
 
