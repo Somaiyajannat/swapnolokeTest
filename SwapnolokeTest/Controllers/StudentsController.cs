@@ -117,7 +117,8 @@ namespace SwapnolokeTest.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Student student = db.Movies.Find(id);
+            //Student student = db.Movies.Find(id);
+            Student student = GetStudent(id);
             if (student == null)
             {
                 return HttpNotFound();
@@ -132,23 +133,36 @@ namespace SwapnolokeTest.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,studentId,studentName,studentEmail,studentContactNo,enrolledDate,studentAddress,studentDeptName")] Student student)
         {
-            if (ModelState.IsValid)
+            /*            if (ModelState.IsValid)
+                        {
+                            db.Entry(student).State = EntityState.Modified;
+                            db.SaveChanges();
+                            return RedirectToAction("Index");
+                        }*/
+            if (student != null)
             {
-                db.Entry(student).State = EntityState.Modified;
-                db.SaveChanges();
+                String query = "UPDATE Students SET"
+                        + " studentId = '" + student.studentId + "',"
+                        + " studentName = '" + student.studentName + "',"
+                        + " studentEmail = '" + student.studentEmail + "',"
+                        + " studentContactNo = '" + student.studentContactNo + "',"
+                        + " enrolledDate = '" + student.enrolledDate.ToString() + "',"
+                        + " studentAddress = '" + student.studentAddress + "',"
+                        + " studentDeptName = '" + student.studentDeptName + "'"
+                        + "WHERE ID = " + student.ID;
+
+                databaseManager.command.CommandText = query;
+                databaseManager.OpenConnection();
+                databaseManager.command.ExecuteNonQuery();
+                databaseManager.CloseConnection();
                 return RedirectToAction("Index");
             }
+
             return View(student);
         }
 
-        // GET: Students/Delete/5
-        public ActionResult Delete(int? id)
+        public Student GetStudent(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            //Student student = db.Movies.Find(id);
             String query = "SELECT * FROM Students WHERE ID = " + id;
             databaseManager.command.CommandText = query;
             databaseManager.OpenConnection();
@@ -170,6 +184,18 @@ namespace SwapnolokeTest.Controllers
                 };
             }
             databaseManager.CloseConnection();
+            return student;
+        }
+
+        // GET: Students/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            //Student student = db.Movies.Find(id);
+            Student student = GetStudent(id);
             if (student == null)
             {
                 return HttpNotFound();
