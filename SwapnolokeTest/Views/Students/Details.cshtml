@@ -1,0 +1,74 @@
+﻿@model SwapnolokeTest.Models.Student
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Student</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.studentId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.studentId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.studentName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.studentName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.studentEmail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.studentEmail)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.studentContactNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.studentContactNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.enrolledDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.enrolledDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.studentAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.studentAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.studentDeptName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.studentDeptName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,69 @@
+﻿@model IEnumerable<SwapnolokeTest.Models.Student>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.studentId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.studentName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.studentEmail)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.studentContactNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.enrolledDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.studentAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.studentDeptName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.studentId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.studentName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.studentEmail)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.studentContactNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.enrolledDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.studentAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.studentDeptName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>
