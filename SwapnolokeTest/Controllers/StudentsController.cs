@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -13,11 +14,41 @@ namespace SwapnolokeTest.Controllers
     public class StudentsController : Controller
     {
         private StudentDBContext db = new StudentDBContext();
+        private DatabaseManager databaseManager = DatabaseManager.getInstance();
+
+        private List<Student> GetStudents()
+        {
+            List<Student> studentList = new List<Student>();
+            String query = "SELECT * FROM Students";
+            databaseManager.command.CommandText = query;
+            databaseManager.connection.Open();
+
+            SqlDataReader reader = databaseManager.command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                Student student = new Student()
+                {
+                    studentId = reader["studentId"].ToString(),
+                    studentName = reader["studentName"].ToString(),
+                    studentEmail = reader["studentEmail"].ToString(),
+                    studentContactNo = reader["studentContactNo"].ToString(),
+                    enrolledDate = (DateTime)reader["enrolledDate"],
+                    studentAddress = reader["studentAddress"].ToString(),
+                    studentDeptName = reader["studentDeptName"].ToString()
+                };
+                studentList.Add(student);
+            }
+            databaseManager.connection.Close();
+            return studentList;
+        }
+
 
         // GET: Students
         public ActionResult Index()
         {
-            return View(db.Movies.ToList());
+            //return View(db.Movies.ToList());
+            return View(GetStudents());
         }
 
         // GET: Students/Details/5

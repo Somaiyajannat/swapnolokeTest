@@ -21,7 +21,7 @@ namespace SwapnolokeTest.Models
             command.Connection = connection;
         }
 
-        DatabaseManager getInstance()
+        public static DatabaseManager getInstance()
         {
             if (instance == null) instance = new DatabaseManager();
             return instance;
